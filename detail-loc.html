@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE-Edge" />
+    <title>Royal Ballroom - JW Marriot Hotel Surabaya</title>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Poppins, sans-serif;
+      }
+
+      body {
+        background: #f9f9f9;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between; 
+        align-items: center;
+        padding: 15px 30px; 
+        background-color: #f8f8f8; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        z-index: 9999;
+        position: fixed;
+        width: 100%;
+      }
+
+      .logo {
+        display: flex; 
+        align-items: center; 
+        margin-right: 0px; 
+      }
+
+      .logo img {
+        width: 50px;
+        height: 10%;
+        margin-right: 10px; 
+        color: #f8f8f8;
+      }
+
+      .logo .title {
+        font-size: 1.8em;
+        color: #359381;
+        margin: 0; 
+      }
+
+      .navbar a:hover {
+        background-color: #999494; 
+        border-radius: 10px; 
+        color: white;
+      }
+
+      .search-bar {
+        display: flex; 
+        align-items: center; 
+        background-color: #eaeaea; 
+        padding: 5px 10px; 
+        border-radius: 20px; 
+        margin-left: 4rem; 
+        width: 400px;
+      }
+
+      .search-bar input {
+        border: none; 
+        background: none; 
+        padding: 10px; 
+        font-size: 14px; 
+        outline: none; 
+        color: #333; 
+        width: 350px;
+      }
+
+      .search-bar a {
+        color: #333; 
+        margin-left: 10px; 
+      }
+
+      .search-bar a:hover {
+        color: #555;
+      }
+
+      .nav-extra {
+        display: flex; 
+        align-items: center; 
+        margin-right: -13rem;
+      }
+
+      .nav-extra a {
+        margin-left: 10px; 
+        font-size: 20px;
+        color: #333;
+        text-decoration: none;
+        padding: 0 10px;
+      }
+
+      .nav-extra a:hover {
+        color: #555; 
+      }
+
+      #menu {
+        display: none;
+      }
+
+      .nav-acc {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+      }
+
+      .profile-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .profile-btn {
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px;
+      }
+
+      .profile-btn img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .profile-btn a {
+        margin-left: 10px;
+        font-size: 20px; 
+        color: #333;
+        text-decoration: none; 
+        padding: 0 10px;
+      }
+
+      .profile-btn a:hover {
+        color: #555;
+      }
+
+      .profile-name {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+
+      .profile-dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 2fr 1fr; 
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        padding-top: 8rem;
+      }
+
+      .main-content h1 {
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .main-content .info {
+        color: grey;
+        margin: 10px 0;
+        margin-bottom: 3rem;
+      }
+
+      .info i {
+        font-size: 24px;
+        width: 24px; 
+        height: 24px; 
+      }
+
+      .info i.small-icon {
+        font-size: 16px;
+      }
+
+      .main-content p {
+        margin-bottom: 3rem;
+      }
+
+      .photos {
+        display: flex;
+        gap: 10px;
+      }
+
+      .photos img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-top: 1rem;
+        margin-bottom: 5rem;
+      }
+
+      .reservation-box form {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 2rem;
+      }
+
+      .reservation-box form button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #1e77a0;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .reservation-box form button:hover {
+        background-color: #09294d;
+      }
+
+      .side-content {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-left: 3rem;
+      }
+
+      .additional-info {
+        margin-top: 20px;
+      }
+
+      .additional-info h4 {
+        margin-bottom: 2rem;
+        font-size: 18px;
+      }
+
+      .additional-info p {
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+
+      .map {
+        width: 100%; 
+        max-width: 400px; 
+        height: auto;
+      }
+
+      .map h4 {
+        margin-bottom: 1rem;
+      }
+
+      .map iframe {
+        width: 100%; 
+        height: 300px; 
+      }
+
+      footer {
+        background-color: #a5b68d;
+        text-align: center;
+        padding: 1rem 0.3rem;
+        margin-top: 3rem;
+      }
+
+      footer .social {
+        padding: 1rem 0;
+      }
+
+      footer .social a {
+        margin: 1rem;
+        color: #fff;
+      }
+
+      footer .social a:hover {
+        color: #347928;
+      }
+
+      footer .links a:hover {
+        color: #347928;
+      }
+
+      footer .links {
+        margin-bottom: 1.4rem;
+      }
+
+      footer .links a {
+        color: #fff;
+        padding: 0.7rem 1rem;
+        text-decoration: none;
+        font-size: 0.8rem;
+      }
+
+      footer .credit a {
+        color: #b7b7b7;
+        font-weight: 700px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="gms.png" />
+        <h2 class="title">GMSHub</h2>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" placeholder="Search Hotel or Restaurant" />
+        <a href="#" id="search"><i data-feather="search"></i></a>
+      </div>
+
+      <div class="nav-extra">
+        <a href="#" id="calendar"><i data-feather="calendar"></i></a>
+        <a href="#" id="bell"><i data-feather="bell"></i></a>
+        <a href="#" id="menu"><i data-feather="menu"></i></a>
+      </div>
+
+      <div class="nav-acc">
+        <div class="profile-dropdown">
+          <button class="profile-btn">
+            <a href="#" id="user"><i data-feather="user"></i></a>
+            <span class="profile-name">Profile</span>
+          </button>
+
+          <div class="dropdown-content">
+            <a href="#myprofile">My Profile</a>
+            <a href="changeprofile.php">Settings</a>
+            <a href="logout.php">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="main-content">
+        <h1>Sky 36 Restaurant</h1>
+        <p class="info">
+          <i data-feather="star"></i> No Reviews &bull;
+          <i data-feather="dollar-sign"></i>$30 and under &bull; International
+        </p>
+        <p>
+          Sky 36 Restaurant adalah restoran rooftop mewah yang berada di
+          ketinggian dan menawarkan pemandangan kota yang menakjubkan. Biasanya
+          restoran ini terletak di gedung-gedung tinggi atau hotel bintang lima,
+          memberikan pengalaman bersantap yang unik dengan suasana terbuka.
+          Pengunjung dapat menikmati hidangan sambil menikmati pemandangan
+          cakrawala kota atau panorama alam di sekitarnya, terutama saat
+          matahari terbenam atau malam hari.
+        </p>
+
+        <h3>Photos</h3>
+        <div class="photos">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe6BubIxeuMf4eaPhEahBMIBKta52w322GMg&s"
+            alt="Photo 1"
+          />
+          <img
+            src="https://asset-2.tstatic.net/tribunnews/foto/bank/images/tempat-makan-malam-romantis-di-surabaya-untuk-malam-tahun-baruan-sky-36-restaurant.jpg"
+            alt="Photo 2"
+          />
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR_jH1dmG_o8sW4oy4bvxkqDwLGFxyIGyZvA&s"
+            alt="Photo 3"
+          />
+        </div>
+      </div>
+
+      <div class="side-content">
+        <div class="reservation-box">
+          <h3>Make a reservation</h3>
+          <form>
+            <button type="submit">Create Event</button>
+            <button type="submit">Join Event</button>
+          </form>
+        </div>
+
+        <div class="map">
+          <h4>Location</h4>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.750466069896!2d112.74718007476045!3d-7.269211992737694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbd8359cb981%3A0x84cea495f21be5c1!2sSky%2036%20Rooftop%20Dining!5e0!3m2!1sid!2sid!4v1728850917007!5m2!1sid!2sid"
+            width="600"
+            height="450"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
+        <div class="additional-info">
+          <h4>Additional information</h4>
+          <p><i data-feather="dollar-sign"></i><br />Price : $30 and under</p>
+          <p>
+            <i data-feather="clock"></i><br />Hours of Operation : Daily 6.00
+            a.m. - 10.00 p.m.
+          </p>
+          <p>
+            <i data-feather="phone"></i><br />
+            Phone Number : 0812 3456 7890
+          </p>
+          <p>
+            <i data-feather="map-pin"></i><br />Location : Jl. Sumatera No.36,
+            Gubeng, Kec. Gubeng, Surabaya, Jawa Timur 60281
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="social">
+        <a href=""><i data-feather="instagram"></i></a>
+        <a href=""><i data-feather="twitter"></i></a>
+        <a href=""><i data-feather="facebook"></i></a>
+      </div>
+
+      <div class="links">
+        <a href="#">Home</a>
+        <a href="#">Create Event</a>
+        <a href="#">Join Event</a>
+        <a href="#">FAQ</a>
+      </div>
+
+      <div class="credit">
+        <p>Created by <a href="">Arifin</a>. | &copy; 2023.</p>
+      </div>
+    </footer>
+
+    <script>
+      feather.replace();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <title>View All Location</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Poppins, sans-serif;
+      }
+
+      body {
+        background:  #2c7f7b;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .hero-img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        filter: brightness(50%);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between; /* Membagi ruang antara elemen di dalam nav */
+        align-items: center; /* Menjaga elemen agar rata tengah secara vertikal */
+        padding: 15px 30px; /* Padding untuk ruang di dalam nav */
+        background-color: #243642; /* Warna latar belakang header */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus di bawah header */
+        z-index: 9999;
+        position: fixed;
+        width: 100%;
+      }
+
+      /* Header Content Styling */
+      .logo {
+        display: flex; /* Mengatur header-content menjadi flex */
+        align-items: center; /* Memastikan logo dan teks sejajar secara vertikal */
+        margin-right: 0px; /* Memberikan jarak antara header-content dan navbar */
+      }
+
+      .logo img {
+        width: 50px; /* Ukuran logo */
+        height: 10%;
+        margin-right: 10px; /* Jarak antara logo dan judul */
+        color: #f8f8f8;
+      }
+
+      .logo .title {
+        font-size: 1.8em;
+        color: #359381;
+        margin: 0; /* Menghilangkan margin default */
+      }
+
+      /* Hover effect untuk link navbar */
+      .navbar a:hover {
+        background-color: #999494; /* Warna latar belakang saat hover */
+        border-radius: 10px; /* Menambahkan border-radius saat hover */
+        color: white; /* Mengubah warna teks menjadi putih saat hover */
+      }
+
+      /* Search Bar Styling */
+      .search-bar {
+        display: flex; /* Mengatur elemen dalam search bar menjadi fleksibel */
+        align-items: center; /* Memastikan input dan ikon sejajar secara vertikal */
+        background-color: #eaeaea; /* Warna latar belakang search bar */
+        padding: 5px 10px; /* Padding untuk ruang dalam search bar */
+        border-radius: 20px; /* Border radius untuk search bar */
+        margin-left: 4rem; /* Jarak search-bar dari ikon */
+        width: 400px;
+      }
+
+      .search-bar input {
+        border: none; /* Menghilangkan border */
+        background: none; /* Menghilangkan latar belakang */
+        padding: 10px; /* Padding untuk input */
+        font-size: 14px; /* Ukuran font untuk input */
+        outline: none; /* Menghilangkan outline saat fokus */
+        color: #333; /* Warna teks input */
+        width: 350px;
+      }
+
+      .search-bar a {
+        color: #333; /* Warna ikon pencarian */
+        margin-left: 10px; /* Jarak antara input dan ikon */
+      }
+
+      .search-bar a:hover {
+        color: #555; /* Mengubah warna ikon saat hover */
+      }
+
+      /* Nav Extra (Icons) */
+      .nav-extra {
+        display: flex; /* Menyusun ikon secara fleksibel */
+        align-items: center; /* Memastikan ikon sejajar secara vertikal */
+        margin-right: -13rem;
+      }
+
+      .nav-extra a {
+        margin-left: 10px; /* Jarak antar ikon */
+        font-size: 20px; /* Ukuran font untuk ikon */
+        color: #ffffff; /* Warna ikon */
+        text-decoration: none; /* Menghilangkan garis bawah */
+        padding: 0 10px;
+      }
+
+      .nav-extra a:hover {
+        color: #555; /* Mengubah warna ikon saat hover */
+      }
+
+      #menu {
+        display: none;
+      }
+
+      /* Styling untuk profil */
+      .nav-acc {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+      }
+
+      .profile-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .profile-btn {
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px;
+      }
+
+      .profile-btn img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .profile-btn a {
+        margin-left: 10px; /* Jarak antar ikon */
+        font-size: 20px; /* Ukuran font untuk ikon */
+        color: #ffffff; /* Warna ikon */
+        text-decoration: none; /* Menghilangkan garis bawah */
+        padding: 0 10px;
+      }
+
+      .profile-btn a:hover {
+        color: #555; /* Mengubah warna ikon saat hover */
+      }
+
+      .profile-name {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+
+      /* Tampilkan dropdown saat hover */
+      .profile-dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .reservation-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+
+      input[type="date"],
+      input[type="time"],
+      input[type="number"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      .restaurant-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .restaurant {
+        display: flex;
+        align-items: flex-start;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        padding: 20px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      }
+
+      .restaurant-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        margin-right: 20px;
+      }
+
+      .restaurant-info {
+        flex-grow: 1;
+      }
+
+      .nameloc-btn {
+        margin: 0;
+        font-size: 20px;
+        border: none;
+        background-color: transparent;
+        text-decoration: none;
+        color: black;
+      }
+
+      .nameloc-btn:hover {
+        text-decoration: underline;
+      }
+
+      .restaurant-info h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .price-rating {
+        margin: 5px 0;
+        color: #777;
+      }
+
+      .availability {
+        color: #e63946;
+        margin-bottom: 10px;
+      }
+
+      .time-slot {
+        background-color: #1e77a0;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .time-slot:hover {
+        background-color: #09294d;
+      }
+
+      .desc {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .map {
+        width: 30%; /* Peta menempati setengah dari lebar kontainer induknya */
+        height: auto;
+      }
+
+      .map iframe {
+        width: 100%; /* Peta menyesuaikan dengan lebar .map */
+        height: 250px; /* Sesuaikan tinggi secara proporsional */
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .tab-link {
+        color: rgb(30, 124, 49);
+        padding: 14px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 0 5px;
+        background-color: transparent;
+      }
+
+      .tab-link:hover {
+        color: #0e500d;
+      }
+
+      .tab-link.active {
+        background-color: #1c5434;
+        color: #f8f8f8;
+        border-radius: 3px;
+      }
+
+      /* Tab content */
+      .tab-content {
+        display: none;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      p {
+        color: #555;
+      }
+
+      footer {
+        background-color: #a5b68d;
+        text-align: center;
+        padding: 1rem 0.3rem;
+        margin-top: 3rem;
+      }
+
+      footer .social {
+        padding: 1rem 0;
+      }
+
+      footer .social a {
+        margin: 1rem;
+        color: #fff;
+      }
+
+      footer .social a:hover {
+        color: #347928;
+      }
+
+      footer .links a:hover {
+        color: #347928;
+      }
+
+      footer .links {
+        margin-bottom: 1.4rem;
+      }
+
+      footer .links a {
+        color: #fff;
+        padding: 0.7rem 1rem;
+        text-decoration: none;
+        font-size: 0.8rem;
+      }
+
+      footer .credit a {
+        color: #b7b7b7;
+        font-weight: 700px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="gmsaflog.html">
+        <div class="logo">
+          <img src="gms.png" />
+          <h2 class="title">GMSHub</h2>
+        </div>
+      </a>
+
+      <div class="search-bar">
+        <input
+          type="text"
+          id="search-bar"
+          placeholder="Search Hotel or Restaurant"
+        />
+        <a href="#" id="search" onclick="searchPlaces()">
+          <i data-feather="search"></i>
+        </a>
+      </div>
+
+      <div class="nav-extra">
+        <a href="#" id="calendar"><i data-feather="calendar"></i></a>
+        <a href="#" id="bell"><i data-feather="bell"></i></a>
+        <a href="#" id="menu"><i data-feather="menu"></i></a>
+      </div>
+
+      <div class="nav-acc">
+        <div class="profile-dropdown">
+          <button class="profile-btn">
+            <a href="#" id="user"><i data-feather="user"></i></a>
+            <span class="profile-name">Profile</span>
+          </button>
+
+          <div class="dropdown-content">
+            <a href="#myprofile">My Profile</a>
+            <a href="changeprofile.php">Settings</a>
+            <a href="logout.php">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <img
+      class="hero-img"
+      src="https://www.ahstatic.com/photos/5451_ho_00_p_1024x768.jpg"
+    />
+
+    <div class="reservation-container">
+      <div class="tabs">
+        <button
+          class="tab-link active"
+          onclick="openSection(event, 'Ballroom')"
+        >
+          Ballroom
+        </button>
+        <button class="tab-link" onclick="openSection(event, 'Restoran')">
+          Restaurant
+        </button>
+        <button class="tab-link" onclick="openSection(event, 'Lainnya')">
+          Other
+        </button>
+      </div>
+
+      <!-- Section Content -->
+      <div id="Ballroom" class="tab-content" style="display: block">
+        <div class="restaurant">
+          <img
+            src="https://media-cdn.tripadvisor.com/media/photo-s/15/24/0f/43/vasa-grand-ballroom.jpg"
+            class="restaurant-img"
+          />
+          <div
+            class="restaurant-info"
+            data-name="Grand Ballroom - Vasa Hotel Surabaya"
+          >
+            <button class="nameloc-btn">
+              Grand Ballroom - Vasa Hotel Surabaya
+            </button>
+            <p class="price-rating">$$$ • International • Surabaya</p>
+            <p class="availability">
+              You're in luck! We still have 1 timeslot left
+            </p>
+            <button class="time-slot">Create Event</button>
+            <button class="time-slot">Join Event</button>
+            <p class="desc">
+              The crew was so helpful and not really crowded because they have a
+              super large rooms.
+            </p>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.6010986380265!2d112.6967469747607!3d-7.286144592721211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fc13ad23f705%3A0xba6949f88ceb7e1c!2sVasa%20Hotel%20Surabaya!5e0!3m2!1sid!2sid!4v1728867480098!5m2!1sid!2sid"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="restaurant">
+          <img
+            src="https://www.bumisurabaya.com/wp-content/uploads/2020/02/ballroom.jpg"
+            class="restaurant-img"
+          />
+          <div
+            class="restaurant-info"
+            data-name="Isyana Ballroom - Bumi Surabaya City Resort"
+          >
+            <button class="nameloc-btn">
+              Isyana Ballroom - Bumi Surabaya City Resort
+            </button>
+            <p class="price-rating">$$$$ • International • Surabaya</p>
+            <button class="time-slot">Create Event</button>
+            <button class="time-slot">Join Event</button>
+            <p class="desc">
+              Our signature restaurant features Asian and International
+              specialties in a relaxed atmosphere.
+            </p>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.7240441331064!2d112.73827737476056!3d-7.272210092734842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbde755739b5%3A0x389ade5459c8dc63!2sIsyana%20Ball%20Room!5e0!3m2!1sid!2sid!4v1728867873183!5m2!1sid!2sid"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="restaurant">
+          <img
+            src="https://media-cdn.tripadvisor.com/media/photo-s/1a/48/2f/33/royal-ballroom-theater.jpg"
+            class="restaurant-img"
+          />
+          <div
+            class="restaurant-info"
+            data-name=" Royal Ballroom - JW Marriot Hotel Surabaya"
+          >
+            <button class="nameloc-btn">
+              Royal Ballroom - JW Marriot Hotel Surabaya
+            </button>
+            <p class="price-rating">$$$$$• International • Surabaya</p>
+            <p class="availability">
+              You're in luck! We still have 1 timeslot left
+            </p>
+            <button class="time-slot">Create Event</button>
+            <button class="time-slot">Join Event</button>
+            <p class="desc">
+              The crew was so helpful and not really crowded because they have a
+              super large rooms.
+            </p>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.8368844137444!2d112.73197347476042!3d-7.2593974927473255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f95cf6ee1ae7%3A0x604e1eba44859541!2sJW%20Marriott%20Hotel%20Surabaya!5e0!3m2!1sid!2sid!4v1728867918147!5m2!1sid!2sid"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Restoran (Perbaiki ID ke "Restoran" agar sesuai dengan onclick) -->
+      <div id="Restoran" class="tab-content">
+        <div class="restaurant">
+          <img
+            src="https://media-cdn.tripadvisor.com/media/photo-s/14/39/5d/ac/the-look.jpg"
+            class="restaurant-img"
+          />
+          <div
+            class="restaurant-info"
+            data-name="The Avenue Lounge Bar - Java Paragon Hotel Surabaya"
+          >
+            <button class="nameloc-btn">
+              The Avenue Lounge Bar - Java Paragon Hotel Surabaya
+            </button>
+            <p class="price-rating">$$$$ • International • Surabaya</p>
+            <button class="time-slot">Create Event</button>
+            <button class="time-slot">Join Event</button>
+            <p class="desc">
+              Our signature restaurant features Asian and International
+              specialties in a relaxed atmosphere.
+            </p>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.5486306336925!2d112.71286817476071!3d-7.292083192715423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb8a7903564f%3A0xc0a3c51fbd278b2c!2sThe%20Avenue%20Lounge%20Bar!5e0!3m2!1sid!2sid!4v1728867994530!5m2!1sid!2sid"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="restaurant">
+          <img
+            src="https://asset-2.tstatic.net/tribunnews/foto/bank/images/tempat-makan-malam-romantis-di-surabaya-untuk-malam-tahun-baruan-sky-36-restaurant.jpg"
+            class="restaurant-img"
+          />
+          <div class="restaurant-info" data-name="Sky 36 Restaurant">
+            <a href="detail-loc.html" class="nameloc-btn">Sky 36 Restaurant</a>
+            <p class="price-rating">$$$$ • International • Surabaya</p>
+            <button class="time-slot">Create Event</button>
+            <button class="time-slot">Join Event</button>
+            <p class="desc">
+              Our signature restaurant features Asian and International
+              specialties in a relaxed atmosphere.
+            </p>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.7504660699055!2d112.74718007476044!3d-7.269211992737697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbd8359cb981%3A0x84cea495f21be5c1!2sSky%2036%20Rooftop%20Dining!5e0!3m2!1sid!2sid!4v1728868035997!5m2!1sid!2sid"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Lainnya (Perbaiki ID ke "Lainnya" agar sesuai dengan onclick) -->
+      <div id="Lainnya" class="tab-content">
+        <div class="restaurant">
+          <img
+            src="https://ik.imgkit.net/3vlqs5axxjf/external/http://images.ntmllc.com/v4/conv-center/580/5803056/5803056_MTG_Convex-Surabaya_Z4F3F7.jpg?tr=w-940%2Ch-529%2Cfo-auto%2Cdi-ami-fallback.png"
+            class="restaurant-img"
+          />
+          <div class="restaurant-info" data-name="Grand City Convention Center">
+            <button class="nameloc-btn">Grand City Convention Center</button>
+            <p class="price-rating">$$$$ • International • Surabaya</p>
+            <button class="time-slot">Create Event</button>
+            <button class="time-slot">Join Event</button>
+            <p class="desc">
+              Our signature restaurant features Asian and International
+              specialties in a relaxed atmosphere.
+            </p>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.8144696834024!2d112.74798067476044!3d-7.261944392744836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f963466fcf4f%3A0x9183b1620f465602!2sGrand%20City%20Convention%20Dan%20Exhibition!5e0!3m2!1sid!2sid!4v1728868063529!5m2!1sid!2sid"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="restaurant">
+          <img
+            src="https://jatimexpo.id/images/event/jx-thrifting.jpeg"
+            class="restaurant-img"
+          />
+          <div
+            class="restaurant-info"
+            data-name="JX International - Jatim Expo Surabaya"
+          >
+            <button class="nameloc-btn">
+              JX International - Jatim Expo Surabaya
+            </button>
+            <p class="price-rating">$$$$ • International • Surabaya</p>
+            <button class="time-slot">Create Event</button>
+            <button class="time-slot">Join Event</button>
+            <p class="desc">
+              Our signature restaurant features Asian and International
+              specialties in a relaxed atmosphere.
+            </p>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.3180756442143!2d112.73144217476091!3d-7.318121792689945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbd741b85ba5%3A0x41a33454dad4495a!2sJatim%20International%20Expo(JIE)%20Convention%20Exhibition!5e0!3m2!1sid!2sid!4v1728868109766!5m2!1sid!2sid"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="social">
+        <a href=""><i data-feather="instagram"></i></a>
+        <a href=""><i data-feather="twitter"></i></a>
+        <a href=""><i data-feather="facebook"></i></a>
+      </div>
+
+      <div class="links">
+        <a href="#">Home</a>
+        <a href="#">Create Event</a>
+        <a href="#">Join Event</a>
+        <a href="#">FAQ</a>
+      </div>
+
+      <div class="credit">
+        <p>Created by <a href="">Arifin</a>. | &copy; 2023.</p>
+      </div>
+    </footer>
+
+    <script>
+      function openSection(evt, sectionName) {
+        // Sembunyikan semua konten tab
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+
+        // Hapus kelas "active" dari semua tombol tab
+        tablinks = document.getElementsByClassName("tab-link");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Tampilkan konten tab yang dipilih dan tambahkan kelas "active" ke tombol yang diklik
+        document.getElementById(sectionName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+    </script>
+    <script>
+      feather.replace();
+    </script>
+
+    <script>
+      // Fungsi untuk mengambil parameter URL
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      function searchPlaces() {
+        // Ambil input dari search bar (jika ada input manual)
+        var input = document.getElementById("search-bar").value.toLowerCase();
+
+        // Jika tidak ada input manual, ambil query dari URL
+        if (!input) {
+          input = getQueryParam("query");
+          if (input) {
+            document.getElementById("search-bar").value = input; // Set input ke search bar
+          }
+        }
+
+        if (input) {
+          var places = document.getElementsByClassName("restaurant-info");
+
+          for (var i = 0; i < places.length; i++) {
+            var placeName = places[i].getAttribute("data-name").toLowerCase();
+
+            if (placeName.includes(input)) {
+              places[i].parentNode.style.display = "block"; // Tampilkan elemen yang cocok
+            } else {
+              places[i].parentNode.style.display = "none"; // Sembunyikan yang tidak cocok
+            }
+          }
+        }
+      }
+
+      // Jalankan pencarian otomatis saat halaman dimuat
+      window.onload = function () {
+        searchPlaces();
+      };
+    </script>
+  </body>
+</html>
